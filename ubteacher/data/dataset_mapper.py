@@ -6,7 +6,7 @@ import detectron2.data.transforms as T
 import detectron2.data.detection_utils as utils
 from detectron2.structures import Boxes
 from detectron2.data import DatasetMapper
-
+from torchvision.transforms import PILToTensor
 
 from .detection_utils import build_strong_augmentation
 
@@ -35,7 +35,7 @@ class DatasetMapperForUBT(DatasetMapper):
         transforms = self.weak_augmentation(aug_input)
         aug_image = aug_input.image
 
-        dataset_dict['image'] = Image.fromarray(aug_image)
+        dataset_dict['image'] = PILToTensor()(Image.fromarray(aug_image))
         self._transform_annotations(dataset_dict, transforms, aug_image.shape[:2])
         
         if not self.is_train:
@@ -48,7 +48,7 @@ class DatasetMapperForUBT(DatasetMapper):
 
         aug_image_pil = Image.fromarray(aug_image.astype("uint8"), "RGB")
         strong_image = self.strong_augmentation(aug_image_pil)
-        strong_dataset_dict['image'] = strong_image
+        strong_dataset_dict['image'] = PILToTensor()(strong_image)
 
         assert dataset_dict["image"].size[0] == strong_dataset_dict["image"].size[0]
         assert dataset_dict["image"].size[1] == strong_dataset_dict["image"].size[1]
