@@ -50,8 +50,8 @@ class DatasetMapperForUBT(DatasetMapper):
         strong_image = self.strong_augmentation(aug_image_pil)
         strong_dataset_dict['image'] = PILToTensor()(strong_image)
 
-        assert dataset_dict["image"].size[0] == strong_dataset_dict["image"].size[0]
-        assert dataset_dict["image"].size[1] == strong_dataset_dict["image"].size[1]
+        assert dataset_dict["image"].shape[0] == strong_dataset_dict["image"].shape[0]
+        assert dataset_dict["image"].shape[1] == strong_dataset_dict["image"].shape[1]
         return (dataset_dict, strong_dataset_dict)
     
     
