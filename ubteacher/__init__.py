@@ -1,4 +1,6 @@
 from . import data
+from . import modeling
+
 from .config import add_ubteacher_config
 
 
